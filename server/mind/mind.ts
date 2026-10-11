@@ -7,7 +7,7 @@ import { AttackTask, StealTask } from '../social/combat';
 import { ClaimTask } from '../social/territory';
 import { RaidTask, raidTargetOf } from '../social/war';
 import { ApproachTask, EatTask, GatherTask, GoHomeTask, RestTask, SleepTask, ThinkTask, WanderTask, type Task } from '../tasks';
-import { minThinkTicks } from './config';
+import { minThinkTicks } from './settings';
 import { DECISION_SCHEMA, REFLECT_SCHEMA, parseDecision, parseReflection, type Decision } from './decision';
 import { observe, reflectPrompt, systemPrompt, userPrompt } from './perception';
 

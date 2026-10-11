@@ -961,3 +961,24 @@ details.panel[open] summary h2 {
 #sound-menu button {
   background: var(--chip);
 }
+
+/* ---------- browser demo ---------- */
+#demo-banner {
+  display: none;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 6px 16px;
+  font-size: 12px;
+  text-align: center;
+  background: color-mix(in srgb, var(--accent) 14%, var(--panel));
+  border-bottom: 1px solid var(--border);
+}
+body.demo #demo-banner {
+  display: flex;
+}
+#demo-banner a {
+  color: var(--accent);
+  font-weight: 600;
+}

@@ -4,6 +4,16 @@
 
 **Status: experiment.** This is a playground for watching multi-agent behavior, not a polished game. Expect rough edges, and expect the inhabitants to surprise you.
 
+<p align="center">
+  <a href="https://yavuzkaanakyuz.github.io/agent-aquarium/"><img src="docs/demo.gif" alt="Two crabs, Nori and Tofu, wander over and chat on the island" width="640"></a>
+</p>
+
+<p align="center">
+  <a href="https://yavuzkaanakyuz.github.io/agent-aquarium/"><b>▶ Try the live demo</b></a> — the whole island runs in your browser. No install, no API key.
+</p>
+
+> **About the demo:** GitHub can't run interactive code inside a README, so the animation above is a recording. The live demo link runs the actual simulation in your browser. It uses the free, rule-based **mock mind** instead of an LLM, so the crabs still wander, gather, chat, trade, build and squabble, just with simpler thoughts. To give them real minds, [run it locally](#quick-start) with your own API key.
+
 ![Agent Aquarium — the island, the inhabitants list and the inspector](docs/screenshot.jpg)
 
 Each inhabitant has a personality, needs, emotions, memories and relationships. A cheap LLM decides what they do next — gather, eat, explore, chat, trade at the market, invent a tool, build a house, claim land, declare war — and a deterministic engine makes sure every decision obeys the rules of the world. Nobody is scripted: alliances, feuds, markets, famines and families come out of the agents' own choices.
@@ -92,6 +102,8 @@ With the default limits (`LLM_MAX_CALLS_PER_MIN=30`) a Haiku-class model costs a
 └───────────────────────────────────────────────────┘
 ```
 
+The live demo bundles the same simulation into the page (`client/local.ts`) and swaps the WebSocket for a direct in-memory transport, with the mock mind behind the same LLM gateway.
+
 Every LLM reply is constrained by a JSON schema and validated again by the engine. An impossible choice (eating with no berries, an over-budget invention) becomes a memory of failure the agent sees next time, never a crash.
 
 ### Safety model
@@ -130,7 +142,9 @@ Game balance (needs, resources, costs) lives in [`server/balance.ts`](server/bal
 ```bash
 npm run dev        # sim server (tsx watch) + Vite client with HMR
 npm test           # scenario tests (fresh seeded worlds, no API key needed)
-npm run check      # typecheck + tests + production build (what CI runs)
+npm run check      # typecheck + tests + production builds (what CI runs)
+npm run dev:demo   # the browser-only demo (no server, mock mind) with HMR
+npm run build:demo # static demo build in demo-dist/ (published to GitHub Pages)
 ```
 
 Handy tools in `scripts/`:

@@ -45,5 +45,4 @@ export function createGateway(env = process.env): LLMGateway {
   });
 }
 
-/** Minimum simulation ticks between two LLM decisions of the same agent. */
-export const minThinkTicks = () => num(process.env.LLM_MIN_THINK_TICKS, 150);
+export { minThinkTicks } from './settings';

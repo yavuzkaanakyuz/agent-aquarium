@@ -28,7 +28,9 @@
     "start": "vite build && tsx server/index.ts",
     "test": "tsx --test tests/sim.test.ts",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm test && npm run build"
+    "check": "npm run typecheck && npm test && npm run build && npm run build:demo",
+    "dev:demo": "vite --mode demo",
+    "build:demo": "vite build --mode demo"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.133.0",

@@ -7,7 +7,10 @@ import { pick, type Rng } from './rng';
 import { AttackTask } from './social/combat';
 import { ApproachTask, GatherTask, WanderTask, type Task, type TaskStatus } from './tasks';
 
-export const MAX_POPULATION = Number(process.env.MAX_AGENTS ?? 12);
+// Works in Node and in the browser demo (where there is no process.env).
+const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
+
+export const MAX_POPULATION = Number(env.MAX_AGENTS ?? 12);
 const ACCESSORIES: Accessory[] = ['none', 'sprout', 'tophat', 'bow', 'antenna', 'flower'];
 const SYLLABLES = ['Pi', 'Mo', 'Ki', 'Lu', 'Bo', 'Na', 'Ri', 'Zu', 'Te', 'Fi', 'Ca', 'Do', 'Me', 'Su', 'Yo', 'Ne', 'Ta'];
 const ENDINGS = ['p', 'n', 'ko', 'mi', 'ru', 'li', 'ba', 'to', 'ni', 'z', 'bo', 'shi'];

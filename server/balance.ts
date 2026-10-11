@@ -1,5 +1,8 @@
 import type { ItemType, ObjectType } from '../shared/protocol';
 
+// Works in Node and in the browser demo (where there is no process.env).
+const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
+
 /**
  * Experiment settings: economy, needs and resources in one place.
  * (DAY_TICKS = 1800 → one day is 3 minutes at 1x)
@@ -29,7 +32,7 @@ export const BALANCE = {
   },
   faintTicks: 300,
   /** Starvation death: fainting from hunger this many times without eating in between is fatal (.env PERMADEATH=0 disables). */
-  permadeath: process.env.PERMADEATH !== '0',
+  permadeath: env.PERMADEATH !== '0',
   starvationFaintsToDie: 2,
   eatTicks: 12,
 };
@@ -46,7 +49,7 @@ export interface ResourceDef {
 
 export type ResourceType = Exclude<ObjectType, 'structure'>;
 /** Initial scarcity multiplier (.env SCARCITY); can be changed at runtime via World.scarcity. */
-export const DEFAULT_SCARCITY = Math.max(0.2, Number(process.env.SCARCITY ?? 1) || 1);
+export const DEFAULT_SCARCITY = Math.max(0.2, Number(env.SCARCITY ?? 1) || 1);
 
 export const RESOURCES: Record<ResourceType, ResourceDef> = {
   bush: {

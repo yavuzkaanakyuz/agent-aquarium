@@ -5,6 +5,7 @@ import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { WebSocketServer, type WebSocket } from 'ws';
 import { SPEEDS, TICK_RATE, type ClientMessage, type ServerMessage } from '../shared/protocol';
+import { applyAdmin, type AdminMessage } from './admin';
 import { createGateway } from './mind/config';
 import { listSaves, loadSimulation, saveSimulation } from './persistence';
 import { Simulation } from './sim';
@@ -101,34 +102,8 @@ function autosave() {
   }
 }
 
-/** Secret admin channel: nothing is written to the event log; the inhabitants never find out. */
-function handleAdmin(msg: Extract<ClientMessage, { type: 'admin' }>) {
-  switch (msg.op) {
-    case 'scarcity':
-      if (Number.isFinite(msg.value)) sim.world.setScarcity(msg.value, 0);
-      break;
-    case 'wither':
-      sim.world.setScarcity(sim.world.scarcity, Math.min(1, Math.max(0, Number(msg.fraction) || 0)));
-      break;
-    case 'rain':
-      sim.world.rain();
-      break;
-    case 'airdrop':
-      sim.airdrop(Math.max(0, Math.min(50, Math.round(Number(msg.berries) || 0))), msg.target ?? null);
-      break;
-    case 'tax':
-      sim.tax(Math.min(1, Math.max(0, Number(msg.fraction) || 0)));
-      break;
-    case 'spoilage':
-      sim.economy.spoilage = Math.min(1, Math.max(0, Number(msg.rate) || 0));
-      break;
-    case 'fee':
-      sim.market.feeRate = Math.min(0.5, Math.max(0, Number(msg.rate) || 0));
-      break;
-    case 'immigrants':
-      sim.immigrants(Math.max(1, Math.min(4, Math.round(Number(msg.count) || 3))), msg.temperament ?? 'aggressive', Boolean(msg.armed));
-      break;
-  }
+function handleAdmin(msg: AdminMessage) {
+  applyAdmin(sim, msg);
   console.log(`[admin] ${JSON.stringify(msg)} → scarcity ×${sim.world.scarcity}`);
 }
 

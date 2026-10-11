@@ -1,6 +1,7 @@
 import { TICK_RATE, isNight, type AgentState, type ClientMessage, type ServerMessage, type WorldClock, type WorldMap, type WorldObject } from '../shared/protocol';
 import { Renderer } from './renderer';
 import { AudioEngine } from './audio';
+import type { Transport } from './local';
 import { EconomyPanel } from './economy';
 import { UI } from './ui';
 import './style.css';
@@ -21,7 +22,7 @@ let lastSnapshotAt = performance.now();
 let selectedId: string | null = null;
 let ws: WebSocket | null = null;
 
-const send = (msg: ClientMessage) => ws?.readyState === WebSocket.OPEN && ws.send(JSON.stringify(msg));
+const send = (msg: ClientMessage) => (local ? local.send(msg) : ws?.readyState === WebSocket.OPEN && ws.send(JSON.stringify(msg)));
 const select = (id: string | null, focus = true) => {
   selectedId = id;
   const t = id ? tracked.get(id) : null;
@@ -170,6 +171,10 @@ function connect() {
   };
 }
 
+/** Browser-only demo (GitHub Pages): the simulation runs in this page with the offline mock mind. */
+const DEMO = import.meta.env.MODE === 'demo';
+let local: Transport | null = null;
+
 function frame(now: number) {
   const t = Math.min(1, (now - lastSnapshotAt) / SNAPSHOT_MS);
   const agents = [...tracked.values()].map(({ prev, curr }) => ({
@@ -220,5 +225,19 @@ canvas.addEventListener(
   { passive: false },
 );
 
-connect();
+if (DEMO) {
+  document.body.classList.add('demo');
+  // On GitHub Pages (user.github.io/repo) point the banner at the repository.
+  const repo = document.querySelector<HTMLAnchorElement>('#demo-repo')!;
+  if (location.hostname.endsWith('github.io')) {
+    repo.href = `https://github.com/${location.hostname.split('.')[0]}/${location.pathname.split('/').filter(Boolean)[0] ?? ''}`;
+  }
+  const { startLocalSimulation } = await import('./local');
+  local = startLocalSimulation(handle);
+  // Small hook for recording previews/screenshots of the demo.
+  Object.assign(window, { aquarium: { renderer, agents: () => [...tracked.values()].map((t) => t.curr) } });
+  ui.setConnection('open');
+} else {
+  connect();
+}
 requestAnimationFrame(frame);
