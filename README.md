@@ -14,7 +14,7 @@
 
 > **About the demo:** GitHub can't run interactive code inside a README, so the animation above is a recording. The live demo link runs the actual simulation in your browser. It uses the free, rule-based **mock mind** instead of an LLM, so the crabs still wander, gather, chat, trade, build and squabble, just with simpler thoughts. To give them real minds, [run it locally](#quick-start) with your own API key.
 
-![Agent Aquarium — the island, the inhabitants list and the inspector](docs/screenshot.jpg)
+![Agent Aquarium — the island, the inhabitants list and the inspector](docs/screenshot.png)
 
 Each inhabitant has a personality, needs, emotions, memories and relationships. A cheap LLM decides what they do next — gather, eat, explore, chat, trade at the market, invent a tool, build a house, claim land, declare war — and a deterministic engine makes sure every decision obeys the rules of the world. Nobody is scripted: alliances, feuds, markets, famines and families come out of the agents' own choices.
 
@@ -114,6 +114,8 @@ Every LLM reply is constrained by a JSON schema and validated again by the engin
 - **Secrets stay on the server.** API keys live in `.env` (git-ignored) and never reach the browser.
 
 ## Things to try
+
+![The secret 🏦 Economy panel: money supply, daily flows, inequality and market prices](docs/economy.png)
 
 - **Drought:** in 🏦 Economy, drag *Nature's bounty* toward 🏜️. Watch hunger, theft and prices.
 - **Immigration:** send an aggressive, armed tribe and see whether the locals trade, ally or fight.
