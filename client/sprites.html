@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sprite Galerisi</title>
+    <style>
+      body { background: #6aae4a; font: 13px system-ui; margin: 16px; }
+      .row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+      figure { margin: 0; text-align: center; color: #fff; text-shadow: 0 1px 2px #0006; }
+      canvas { image-rendering: pixelated; display: block; margin: 0 auto 4px; }
+    </style>
+  </head>
+  <body>
+    <div class="row" id="structures"></div>
+    <div class="row" id="icons"></div>
+    <div class="row" id="crabs"></div>
+    <script type="module">
+      import { structureSprite, itemIcon, crabSprite, wingSprite } from './sprites.ts';
+      import { SHAPES, STRUCTURE_SHAPES } from '../shared/invention.ts';
+      const show = (el, img, label, scale) => {
+        const c = document.createElement('canvas');
+        c.width = img.width * scale; c.height = img.height * scale;
+        const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        const f = document.createElement('figure'); f.append(c, label);
+        document.getElementById(el).append(f);
+      };
+      STRUCTURE_SHAPES.forEach((s, i) => show('structures', structureSprite(s, ['#c0703f', '#5b8fd6', '#d64545', '#e8b54a'][i]), s, 5));
+      SHAPES.filter((s) => !STRUCTURE_SHAPES.includes(s)).forEach((s) => show('icons', itemIcon(s, '#7a9cc6'), s, 5));
+      for (const eyes of ['open', 'happy', 'sad', 'angry', 'closed']) show('crabs', crabSprite('#D97757', 'none', { legs: 'stand', eyes, look: 0, squash: 0 }), eyes, 6);
+      show('crabs', wingSprite(true), 'kanat', 6);
+    </script>
+  </body>
+</html>

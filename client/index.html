@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="An open-ended sandbox where LLM-driven pixel crabs live, feel, talk, trade, invent and fight." />
+    <title>Agent Aquarium</title>
+  </head>
+  <body>
+    <header id="topbar">
+      <div class="brand"><canvas id="logo"></canvas><span>Agent Aquarium</span><em>experiment</em></div>
+      <div id="clock">—</div>
+      <div class="controls">
+        <button id="mind" title="Toggle the LLM mind">🧠 —</button>
+        <div id="speed" role="group" aria-label="Simulation speed"></div>
+        <div class="menu-wrap">
+          <button id="sound" title="Sound">🔇</button>
+          <div id="sound-menu" hidden>
+            <label>🎵 Music <input id="vol-music" type="range" min="0" max="1" step="0.05" /></label>
+            <label>🗣️ Voices <input id="vol-voice" type="range" min="0" max="1" step="0.05" /></label>
+            <button id="sound-toggle">Turn sound on</button>
+          </div>
+        </div>
+        <button id="eco-toggle" title="Economy panel (admin)">🏦 Economy</button>
+        <button id="save" title="Save the world">💾</button>
+        <div class="menu-wrap">
+          <button id="load" title="Load a save">📂</button>
+          <div id="load-menu" hidden></div>
+        </div>
+        <button id="regen" title="Generate a new world">🌱 New world</button>
+        <span id="conn" data-status="connecting">Connecting…</span>
+      </div>
+    </header>
+    <main>
+      <section id="stage">
+        <canvas id="world"></canvas>
+        <div id="hint">Drag: pan · Wheel: zoom · Click: select</div>
+      </section>
+      <aside id="side">
+        <div class="panel">
+          <h2>Inhabitants</h2>
+          <ul id="agents"></ul>
+        </div>
+        <div class="panel" id="inspector"></div>
+        <details class="panel" id="achievements-panel">
+          <summary><h2>Achievements <span id="ach-count">0</span></h2></summary>
+          <ul id="achievements"></ul>
+        </details>
+        <details class="panel" id="inventions-panel">
+          <summary><h2>Inventions <span id="inv-count">0</span></h2></summary>
+          <ul id="inventions"></ul>
+        </details>
+        <div class="panel grow">
+          <h2>Events</h2>
+          <ol id="log"></ol>
+        </div>
+      </aside>
+    </main>
+    <aside id="economy" hidden>
+      <header><h2>🏦 Economy — Central Bank</h2><button onclick="this.closest('aside').hidden = true" title="Close">✕</button></header>
+      <div class="eco-scroll">
+        <div class="eco-body"></div>
+        <h3>Policy tools</h3>
+        <div class="eco-controls"></div>
+      </div>
+    </aside>
+    <div id="toasts"></div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

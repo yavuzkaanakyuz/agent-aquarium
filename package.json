@@ -1,0 +1,45 @@
+{
+  "name": "agent-aquarium",
+  "version": "0.1.0",
+  "description": "An open-ended sandbox where LLM-driven pixel crabs live, feel, talk, trade, invent, build, fight and raise families.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "llm",
+    "agents",
+    "multi-agent",
+    "simulation",
+    "artificial-life",
+    "sandbox",
+    "claude",
+    "gemini",
+    "openrouter",
+    "pixel-art"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n sim,web -c magenta,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "vite",
+    "build": "vite build",
+    "start": "vite build && tsx server/index.ts",
+    "test": "tsx --test tests/sim.test.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/ws": "^8.18.2",
+    "concurrently": "^10.0.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
